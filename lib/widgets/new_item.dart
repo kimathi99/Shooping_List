@@ -4,13 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:shopping_list/data/categories.dart';
 
 class NewItem extends StatefulWidget {
-  const NewItem({Key? key}) : super(key: key);
+  const NewItem({super.key});
 
   @override
   State<NewItem> createState() => _NewItemState();
 }
 
 class _NewItemState extends State<NewItem> {
+  final _formKey = GlobalKey<FormState>();
+  var enteredName=
+  void _saveItem() {
+    _formKey.currentState!.validate();
+    _formKey.currentState!.save();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +27,7 @@ class _NewItemState extends State<NewItem> {
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Form(
+          key: _formKey,
           child: Column(
             children: [
               TextFormField(
@@ -46,6 +54,7 @@ class _NewItemState extends State<NewItem> {
                         label: Text('Quantity'),
                       ),
                       initialValue: '1',
+                      keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty ||
@@ -54,6 +63,9 @@ class _NewItemState extends State<NewItem> {
                           return 'Must be a valid postive number';
                         }
                         return null;
+                      },
+                      onSaved: (){
+                        
                       },
                     ),
                   ),
@@ -93,11 +105,13 @@ class _NewItemState extends State<NewItem> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _formKey.currentState!.reset();
+                    },
                     child: const Text('Reset'),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: _saveItem,
                     child: const Text('Add Item'),
                   ),
                 ],
