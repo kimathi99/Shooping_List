@@ -1,5 +1,6 @@
 import 'package:shopping_list/models/category.dart';
 
+// named arguments are always required
 class GroceryItem {
   const GroceryItem({
     required this.id,
